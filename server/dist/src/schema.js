@@ -1,7 +1,7 @@
-import { gql } from "apollo-server"
-
-
- const typeDefs = gql`
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const apollo_server_1 = require("apollo-server");
+const typeDefs = (0, apollo_server_1.gql) `
    type Book {
      title: String
      author: String
@@ -25,7 +25,6 @@ import { gql } from "apollo-server"
 #     modulesCount: Int 
 #     "Later add also author"
 # }
-`
-
-
-module.exports = typeDefs
+`;
+module.exports = typeDefs;
+//# sourceMappingURL=schema.js.map

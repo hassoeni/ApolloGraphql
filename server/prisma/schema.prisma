@@ -6,6 +6,20 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
+  provider = "sqlite"
+  // url      = env("DATABASE_URL")
+  url      = "file:./dev.db"
+}
+
+model Track {
+  id                Int    @id @default(autoincrement())
+  title             String
+  thumbnail         String
+  length            Int
+  modulesCount      Int
+  description       String
+  numberOfViews     Int 
+  durationInSeconds Int
+  // later add author 
+  // later add module 
 }

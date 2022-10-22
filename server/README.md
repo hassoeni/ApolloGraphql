@@ -1,6 +1,8 @@
 # TO DO PROJECTS 
-1. Define first backend with two models  use SQLLITE 
-2. Populate data in backend using prisma studio 
+~~1. Define first backend with one models  use SQLLITE // done 
+~~
+~~2. Populate data in backend using prisma studio // done 
+~~
 3. setup Index.ts so that it is usable 
 4. connect prisma with index.ts
 5. define your graphql schema.ts file 

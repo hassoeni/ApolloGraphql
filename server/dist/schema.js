@@ -1,7 +1,5 @@
-import { gql } from "apollo-server"
-
-
- const typeDefs = gql`
+import { gql } from "apollo-server";
+const typeDefs = gql `
    type Book {
      title: String
      author: String
@@ -25,7 +23,5 @@ import { gql } from "apollo-server"
 #     modulesCount: Int 
 #     "Later add also author"
 # }
-`
-
-
-module.exports = typeDefs
+`;
+module.exports = typeDefs;

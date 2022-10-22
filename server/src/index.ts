@@ -1,24 +1,21 @@
-import { plugin } from "nexus"
+import { ApolloServer } from '@apollo/server'
+import { startStandaloneServer } from '@apollo/server/standalone'
+import resolvers from './resolvers'
+import typeDefs from './schema'
 
-const { ApolloServer, gql } = require('apollo-server-cloud-functions')
-const {
-	ApolloServerPluginLandingPageLocalDefault,
-} = require('apollo-server-core')
-const typeDefs = require('./schema')
-const resolvers = require('./resolvers')
+// const typeDefs = `#graphql
+// `
+
+
 
 const server = new ApolloServer({
-	typeDefs,
-	resolvers,
-    introspection: true, 
-    cache: 'bounded',
-      plugins: [ApolloServerPluginLandingPageLocalDefault({ embed: true }),]
-      
-
-    })
-
-const { url } = await startStandaloneServer(server, {
-	listen: { port: 4000 },
+    typeDefs, 
+    resolvers
 })
 
-console.log(`Houston we have lift off at: ${url}`)
+const {url} = await startStandaloneServer(server, {
+    listen: {port: 4000}
+})
+
+
+console.log(`${url}`)
