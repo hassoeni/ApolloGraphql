@@ -13,10 +13,10 @@
 // 		postById(id: Int): Post
 // 	}
 // 	type Mutation {
+    // 		signupUser(data: UserCreateInput!): User!
 // 		createDraft(authorEmail: String!, data: PostCreateInput!): Post
 // 		deletePost(id: Int!): Post
 // 		incrementPostViewCount(id: Int!): Post
-// 		signupUser(data: UserCreateInput!): User!
 // 		togglePublishPost(id: Int!): Post
 // 	}
 
