@@ -1,16 +1,11 @@
 import { gql, useQuery } from '@apollo/client'
 
 const BLOG = gql`
-  query FetchAllblog {
-  fetchAllblog {
+  query Query {
+  fetchAllUsers {
+    email
     id
-    title
-    author {
-      id
-      name
-      email
-    }
-    description
+    name
   }
 }
 
@@ -32,7 +27,7 @@ export default function Home() {
       {data?.fetchAllblog?.map((item, index) => (
         <div>
           <h1>{item.id}</h1>
-          <p>{item.title}</p>
+          <p>{item.email}</p>
         </div>
       ))
       }
