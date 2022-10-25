@@ -1,11 +1,11 @@
-const { PrismaClient } = require('@prisma/client')
+const { PrismaClient } = require("@prisma/client");
 
-const prisma = new PrismaClient()
+const prisma = new PrismaClient();
 
 const context = {
-    prisma: prisma,
-}
+  prisma: prisma,
+};
 
 module.exports = {
-    context: context,
-}
+  context: context,
+};

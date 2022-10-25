@@ -1,19 +1,12 @@
+const { ApolloServer } = require('apollo-server')
+const { context } = require('./context')
+const { typeDefs } = require('./schema')
+const { resolvers } = require('./resolvers')
 
-const { ApolloServer } = require('apollo-server') //V3
-const { context } = require('./context');
-const typeDefs = require('./schema');
+const server = new ApolloServer({ typeDefs, resolvers, context: context })
 
-
-const server = new ApolloServer({
-    context: context,
-    typeDefs,
-    introspection: true, 
-});
-
-server.listen().then(() => {
-    console.log(`
-    🚀  Server is running!
-    🔉  Listening on port 4000
-    📭  Query at http://localhost:4000
-  `);
-});
+server.listen().then(({ url }) =>
+  console.log(`
+🚀 Server ready at: ${url}
+⭐️ See sample queries: http://pris.ly/e/js/graphql-sdl-first#using-the-graphql-api`),
+)
