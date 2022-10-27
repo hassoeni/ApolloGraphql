@@ -51,7 +51,6 @@ const resolvers = {
             // user create give data as params 
             // token jwt signin 
             // return token and user 
-            // return posts
             const postGegevens = args.data.posts
                 ? args.data.posts.map((post) => {
                     return { title: post.title, content: post.content || undefined }

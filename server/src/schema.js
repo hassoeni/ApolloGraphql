@@ -16,6 +16,7 @@ const typeDefs = gql`
 		fetchSingleComplex(id: Int!): Complex
 	}
 
+
 	type Mutation {
 		"For signing up a user you should provide a email and password."
 		signUpuser(data: CreateUserInputs!): User!
@@ -31,6 +32,12 @@ const typeDefs = gql`
 		updateComplex(id: Int!, data: CreateComplexInput): Complex
 		"delete complex"
 		deleteComplex(id: Int!): Complex
+	}
+
+	"defines authentication payload returns the full user object and a token" 
+	type Authpayload {
+		token: String 
+		user: User 
 	}
 
 	"Defines what a complex object is it needs at least a complexname and gbo to be made"
