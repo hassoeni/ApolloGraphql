@@ -8,12 +8,13 @@ datasource db {
 }
 
 model User {
-  id                Int                @id @default(autoincrement())
-  email             String             @unique
-  name              String?
-  password          String
-  tokenId           Int?
-  posts             Post[]
+  id           Int       @id @default(autoincrement())
+  email        String    @unique
+  name         String?
+  password     String
+  posts        Post[]
+  complexen    Complex[]
+  profilephoto String
 }
 
 model Post {
@@ -28,4 +29,17 @@ model Post {
   author    User?    @relation(fields: [authorId], references: [id])
 }
 
-
+model Complex {
+  id   Int   @id @default(autoincrement()) @map("complexid")
+  complexnummer Int 
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  complexnaam String @unique
+  gbo         Int
+  marktwaarde Int
+  huur        Int
+  streefhuur  Int
+  po          Int      @map("Gemiddeld_PO")
+  gebruiker        User?    @relation(fields: [gebruikerId], references: [id])
+  gebruikerId      Int?
+}

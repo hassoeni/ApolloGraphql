@@ -1,7 +1,7 @@
 // context.prisma.something lands here
 const { DateTimeResolver } = require('graphql-scalars')
 
- const  resolvers = {
+const resolvers = {
     Query: {
         //Resolver that fetches all the users 
         fetchAllUsers: (_parent, _args, context) => {
@@ -26,7 +26,19 @@ const { DateTimeResolver } = require('graphql-scalars')
             return context.prisma.user.findUnique({
                 where: { email: args.email || undefined }
             })
-        }
+        },
+
+        // resolver that fetches all complexen 
+        fetchAllComplexen: (parent, args, context) => {
+            return context.prisma.complex.findMany()
+        },
+
+        fetchSingleComplex: (parent, args, context) => {
+            return context.prisma.complex.findUnique({
+                where: { id: args.id || undefined }
+            })
+        },
+
 
 
     },
@@ -40,9 +52,6 @@ const { DateTimeResolver } = require('graphql-scalars')
             // token jwt signin 
             // return token and user 
             // return posts
-
-
-
             const postGegevens = args.data.posts
                 ? args.data.posts.map((post) => {
                     return { title: post.title, content: post.content || undefined }
@@ -60,9 +69,9 @@ const { DateTimeResolver } = require('graphql-scalars')
             })
         },
 
-        deleteBlogPost: (parent,args,context) => {
+        deleteBlogPost: (parent, args, context) => {
             return context.prisma.post.delete({
-                where: {id: args.id}
+                where: { id: args.id }
             })
         },
 
@@ -83,11 +92,11 @@ const { DateTimeResolver } = require('graphql-scalars')
                     }
                 })
             }
-        }, 
+        },
 
-         signInUser: async (parent, args,context) => {
+        signInUser: async (parent, args, context) => {
             const user = await context.prisma.user.findUnique({
-                where: {email: args.email}
+                where: { email: args.email }
             })
             if (!user) {
                 throw new Error('No such user found')
@@ -99,8 +108,57 @@ const { DateTimeResolver } = require('graphql-scalars')
             // else sign in user 
 
 
-            return user 
-        }
+            return user
+        },
+
+        addComplex: async (parent, args, context) => {
+            return context.prisma.complex.create({
+                data: {
+                    complexnaam: args.data.complexnaam,
+                    complexnummer: args.data.complexnummer,
+                    gbo: args.data.gbo,
+                    marktwaarde: args.data.marktwaarde,
+                    huur: args.data.huur,
+                    streefhuur: args.data.streefhuur,
+                    po: args.data.po,
+                    user: {
+                        connect: { email: args.authorEmail }
+                    }
+                }
+            })
+        },
+
+        updateComplex: async (parent,args,context) => {
+            const complex = await context.prisma.complex.update({
+                data: {
+                    complexnaam: args.data.complexnaam,
+                    complexnummer: args.data.complexnummer,
+                    gbo: args.data.gbo,
+                    marktwaarde: args.data.marktwaarde,
+                    huur: args.data.huur,
+                    streefhuur: args.data.streefhuur,
+                    po: args.data.po,
+                },
+                where: {
+                    id: args.id
+                }
+
+            })
+            return complex
+        },
+
+
+        deleteComplex: async (parent, args, context) => {
+                const complex = await context.prisma.complex.delete({
+                    where: {
+                        id: args.id,
+                    },    
+                })
+                return complex
+                }
+
+
+
     },
 
     // Returs the posts allocated towards the user
@@ -110,6 +168,7 @@ const { DateTimeResolver } = require('graphql-scalars')
                 where: { id: parent.id }
             })
                 .posts()
+                .complexen()
         },
     },
 
@@ -122,6 +181,19 @@ const { DateTimeResolver } = require('graphql-scalars')
                 .author()
         },
     },
+
+    // returns the user allocated towards a complex
+    Complex: {
+        gebruiker: (parent, _args, context) => {
+            return context.prisma.complex.findUnique({
+                where: {
+                    id: parent.id
+                }
+            })
+                .user()
+        }
+    },
+
     DateTime: DateTimeResolver,
 }
 

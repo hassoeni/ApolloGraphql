@@ -10,6 +10,10 @@ const typeDefs = gql`
 		fetchSinglePost(id: Int!): Post 
 		"fetch user by email"
 		fetchUniqueUser(email: String!): User
+		"fetch all complexen"
+		fetchAllComplexen: [Complex!]!
+		"fetch complex by id"
+		fetchSingleComplex(id: Int!): Complex
 	}
 
 	type Mutation {
@@ -21,6 +25,41 @@ const typeDefs = gql`
 		signInUser(email: String!, password: String!): User! 
 		"deletes a blog post"
 		deleteBlogPost(id: Int!): Post
+		"add complex"
+		addComplex(authorEmail: String!, data: CreateComplexInput, ): Complex
+		"update complex"
+		updateComplex(id: Int!, data: CreateComplexInput): Complex
+		"delete complex"
+		deleteComplex(id: Int!): Complex
+	}
+
+	"Defines what a complex object is it needs at least a complexname and gbo to be made"
+	type Complex {
+		"complex object id"
+		id: Int! 
+		"the complexnumber"
+		complexnummer: Int! 
+		"TimeSeries of the data object"
+		createdAt: DateTime!
+		updatedAt: DateTime! 
+		"current name of the object"
+		complexnaam: String! 
+		"current size of the object"
+		gbo: Int!
+		"current market value of the object" 
+		marktwaarde: Int
+		"rent" 
+		huur: Int 
+		"desired rent"
+		streefhuur: Int 
+		"planed maintanance of the object"
+		po: Int
+		"the user of the complex in order to make work define complex in resolvers and define how user should return complex by user id"
+		gebruiker: User
+		
+		# code: Int! 
+		# success: Boolean!
+		# message: String!   
 	}
 
 	"Defines what a user object is it needs an email and it has a list of posts"
@@ -33,8 +72,12 @@ const typeDefs = gql`
 		name: String
 		"the password of the user"
 		password: String!
+		"user is allowed to upload a photo"
+		profilephoto: String 
 		"posts of the user non nullable list because prisma defined as Post[]"
 		posts: [Post!]! 
+		"Complexen associated with the user is a non nullable list because prisma defined it as Complex[]"
+		complexen: [Complex!]!
 	}
 
 	"Defines what a post object is"
@@ -71,6 +114,25 @@ const typeDefs = gql`
 		published: Boolean! 
 	}
  
+	input CreateComplexInput {
+		"what is the compelex name?"
+		complexnaam: String! 
+		"What is the complexnumber"
+		complexnummer: Int!
+		"hoe groot is het complex?"
+		gbo: Int
+		"wat is de marktwaarde"
+		marktwaarde: Int
+		"huur"
+		huur: Int 
+		"streefhuur"
+		streefhuur: Int
+		"wat is de gemiddelde PO"
+		po: Int
+	}
+
+	
+
 	scalar DateTime
 `
 
