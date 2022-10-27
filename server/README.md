@@ -17,7 +17,7 @@
 10. Adjust resolver and or mutation so that the user can upload an image
 11. make login and signup safe using JWT and Bcrypt or any other sign in method. Preferable azure AD login 
 11a. adjust context in index.js 
-11b. 
+11b. add Req to user 
 12. migrate to azure ad or google auth. 
 
 
