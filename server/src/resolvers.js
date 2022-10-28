@@ -39,6 +39,16 @@ const resolvers = {
             })
         },
 
+        complexen: async (parent, args, context) => {
+            const definedsearch = args.filter 
+            ? {complexnaam: {contains: args.filter}} : {}
+
+            const complex = await context.prisma.complex.findMany({
+                definedsearch 
+            })
+            return complex 
+        }
+
 
 
     },

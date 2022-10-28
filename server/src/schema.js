@@ -14,6 +14,8 @@ const typeDefs = gql`
 		fetchAllComplexen: [Complex!]!
 		"fetch complex by id"
 		fetchSingleComplex(id: Int!): Complex
+		"fetch filtered complexen" 
+		complexen(filter: String): [Complex!]! 
 	}
 
 
