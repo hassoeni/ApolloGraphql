@@ -1,5 +1,8 @@
 // context.prisma.something lands here
 const { DateTimeResolver } = require('graphql-scalars')
+const { compare, hash } = require('bcryptjs')
+const { sign } = require('jsonwebtoken')
+const { applyMiddleware } = require('graphql-middleware')
 
 const resolvers = {
     Query: {
@@ -52,6 +55,7 @@ const resolvers = {
                 where,
                 orderBy: args.orderBy
             })
+            
             return complex 
         }
 

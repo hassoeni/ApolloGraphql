@@ -1,9 +1,9 @@
 const { ApolloServer } = require('apollo-server')
-const { context } = require('./context')
+const { createContext } = require('./context')
 const { typeDefs } = require('./schema')
 const { resolvers } = require('./resolvers')
 
-const server = new ApolloServer({ typeDefs, resolvers, context: context, introspection: true })
+const server = new ApolloServer({ typeDefs, resolvers, context: createContext, introspection: true })
 
 server.listen().then(({ url }) =>
   console.log(`

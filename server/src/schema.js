@@ -20,12 +20,16 @@ const typeDefs = gql`
 
 
 	type Mutation {
+		# "For signing up a user you should provide a email and password."
+		# signUpuser(data: CreateUserInputs!): User! #update naar signUpuser(data: CreateUserInputs!): AuthPayload
+		# "signs a user in if the email matches the provided input email"
+		# signInUser(email: String!, password: String!): User! #update naar signUpuser(email: String!, password: String!): AuthPayload
 		"For signing up a user you should provide a email and password."
-		signUpuser(data: CreateUserInputs!): User!
+		signUpuser(data: CreateUserInputs!): Authpayload #update naar signUpuser(data: CreateUserInputs!): AuthPayload
+		"signs a user in if the email matches the provided input email"
+		signInUser(email: String!, password: String!): Authpayload #update naar signUpuser(email: String!, password: String!): AuthPayload
 		"Let's users add a blog post after providing an email"
 		addBlogPost(authorEmail: String!, data: CreatePostInputs!): Post 
-		"signs a user in if the email matches the provided input email"
-		signInUser(email: String!, password: String!): User! 
 		"deletes a blog post"
 		deleteBlogPost(id: Int!): Post
 		"add complex"

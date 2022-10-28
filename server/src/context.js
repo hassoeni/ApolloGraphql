@@ -1,15 +1,29 @@
 const { PrismaClient } = require("@prisma/client");
 
 const prisma = new PrismaClient();
+
+function createContext(req) {
+  return {
+    ...req, 
+    prisma 
+  }
+}
+
+
+
+
 // WORKING CODE
-const context = {
-  prisma: prisma,
-};
+// const context = {
+//   prisma: prisma,
+// };
 
 // !IMPLEMENT LATER during Authentication Sprint 
-// const context = ({ req }) => {
+// const context = async ({ req }) => {
 //   const token = req.headers.authorization || ''
-//   const user = getUser(token)
+//   const userId = token.split(' ')[1]
+//   if (userId) {
+//   const {data} = await 
+//}
 //   if (!user) throw new AuthenticationError('you must be loggedin to query anything')
 //   return {
 //     user,
@@ -17,5 +31,5 @@ const context = {
 //   }
 // };
 module.exports = {
-  context: context,
+  createContext: createContext,
 };
