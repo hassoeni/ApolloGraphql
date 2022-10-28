@@ -15,7 +15,7 @@ const typeDefs = gql`
 		"fetch complex by id"
 		fetchSingleComplex(id: Int!): Complex
 		"fetch filtered complexen" 
-		complexen(filter: String): [Complex!]! 
+		complexen(filter: String, skip: Int, take: Int, orderBy: SorteerComplex): [Complex!]! 
 	}
 
 
@@ -138,6 +138,21 @@ const typeDefs = gql`
 		streefhuur: Int
 		"wat is de gemiddelde PO"
 		po: Int
+	}
+
+
+	input SorteerComplex {
+		id: Sort, 
+		complexnaam: Sort, 
+		complexnummer: Sort, 
+		createdAt: Sort, 
+		updatedAt: Sort 
+	}
+
+
+	enum Sort {
+		asc,
+		desc 
 	}
 
 	
