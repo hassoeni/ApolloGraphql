@@ -1,17 +1,30 @@
-const {verify} = require('jsonwebtoken')
+const jwt = require('jsonwebtoken');
+const APP_SECRET = 'GraphQL-is-aw3some';
 
-const SUPER_SECRET_CODE = 'appsecret343'
+function getTokenPayload(token) {
+    return jwt.verify(token, APP_SECRET);
+}
 
-function getUserId(context) {
-    const authHeader = context.req.get('Authorization')
-    if(authHeader) {
-        const token = authHeader.replace('Bearer ', '')
-        const verifiedToken = verify(token, APP_SECRET)
-        return verifiedToken && Number(verifiedToken.userId)
+function getUserId(req, authToken) {
+    if (req) {
+        const authHeader = req.headers.authorization;
+        if (authHeader) {
+            const token = authHeader.replace('Bearer ', '');
+            if (!token) {
+                throw new Error('No token found');
+            }
+            const { userId } = getTokenPayload(token);
+            return userId;
+        }
+    } else if (authToken) {
+        const { userId } = getTokenPayload(authToken);
+        return userId;
     }
+
+    throw new Error('Not authenticated');
 }
 
-module.exports  = {
-    SUPER_SECRET_CODE: SUPER_SECRET_CODE,
-    getUserId: getUserId
-}
+module.exports = {
+    APP_SECRET,
+    getUserId
+};

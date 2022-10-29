@@ -1,7 +1,4 @@
-const { gql } = require('apollo-server')
-
-const typeDefs = gql`
-	type Query {
+type Query {
         "fetches all users from db"
 		fetchAllUsers: [User!]!
 		"fetch all our posts Posts"
@@ -20,10 +17,6 @@ const typeDefs = gql`
 
 
 	type Mutation {
-		# "For signing up a user you should provide a email and password."
-		# signUpuser(data: CreateUserInputs!): User! #update naar signUpuser(data: CreateUserInputs!): AuthPayload
-		# "signs a user in if the email matches the provided input email"
-		# signInUser(email: String!, password: String!): User! #update naar signUpuser(email: String!, password: String!): AuthPayload
 		"For signing up a user you should provide a email and password."
 		signUpuser(data: CreateUserInputs!): Authpayload #update naar signUpuser(data: CreateUserInputs!): AuthPayload
 		"signs a user in if the email matches the provided input email"
@@ -68,11 +61,7 @@ const typeDefs = gql`
 		"planed maintanance of the object"
 		po: Int
 		"the user of the complex in order to make work define complex in resolvers and define how user should return complex by user id"
-		gebruiker: User
-		
-		# code: Int! 
-		# success: Boolean!
-		# message: String!   
+		gebruiker: User  
 	}
 
 	"Defines what a user object is it needs an email and it has a list of posts"
@@ -162,10 +151,7 @@ const typeDefs = gql`
 	
 
 	scalar DateTime
-`
 
 
 
-module.exports = {
-	typeDefs,
-}
+
