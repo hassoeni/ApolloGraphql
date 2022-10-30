@@ -2,31 +2,18 @@ const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
 const { APP_SECRET, getUserId } = require('../utils')
 
-
-async function signUpuser(parent,args,context) {
-
-    // const postGegevens = args.data.posts
-    //     ? args.data.posts.map((post) => {
-    //         return { title: post.title, content: post.content || undefined }
-    //     }) : []
+async function signup(parent, args, context, info) {
     // 1
-    const saltRounds = 10;
-    const salt = bcrypt.genSaltSync(saltRounds);
-
-    const password = await bcrypt.hash(args.password, salt)
+    const password = await bcrypt.hash(args.password, 10)
 
     // 2
     const user = await context.prisma.user.create({ 
-        data:
-        {
-            name: args.data.name,
-            email: args.data.email,
-            password: password, 
-            // posts: {
-            //     create: postGegevens
-            // }
+        data: { 
+            // ...args,
+            name: args.name,
+            email: args.email,
+            password: password 
         } 
-    
     })
 
     // 3
@@ -38,7 +25,9 @@ async function signUpuser(parent,args,context) {
         user,
     }
 }
-async function signInUser(parent, args, context) {// 1
+
+async function login(parent, args, context, info) {
+    // 1
     const user = await context.prisma.user.findUnique({ where: { email: args.email } })
     if (!user) {
         throw new Error('No such user found')
@@ -58,6 +47,8 @@ async function signInUser(parent, args, context) {// 1
         user,
     }
 }
+
+
 async function addComplex(parent, args, context) {
     return context.prisma.complex.create({
         data: {
@@ -123,9 +114,11 @@ function addBlogPost(parent, args, context) {
     }
 }
 
-module.exports  =  {
-    signInUser,
-    signUpuser,
+module.exports = {
+    // signInUser,
+    // signUpuser,
+    signup,
+    login,
     addComplex,
     updateComplex,
     deleteComplex,

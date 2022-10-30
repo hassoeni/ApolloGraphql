@@ -1,157 +1,156 @@
 type Query {
-        "fetches all users from db"
-		fetchAllUsers: [User!]!
-		"fetch all our posts Posts"
-		fetchAllPosts: [Post!]!
-		"fetch single post by id"
-		fetchSinglePost(id: Int!): Post 
-		"fetch user by email"
-		fetchUniqueUser(email: String!): User
-		"fetch all complexen"
-		fetchAllComplexen: [Complex!]!
-		"fetch complex by id"
-		fetchSingleComplex(id: Int!): Complex
-		"fetch filtered complexen" 
-		complexen(filter: String, skip: Int, take: Int, orderBy: SorteerComplex): [Complex!]! 
-	}
+    "fetches all users from db"
+    fetchAllUsers: [User!]!
+    "fetch all our posts Posts"
+    fetchAllPosts: [Post!]!
+    "fetch single post by id"
+    fetchSinglePost(id: Int!): Post
+    "fetch user by email"
+    fetchUniqueUser(email: String!): User
+    "fetch all complexen"
+    fetchAllComplexen: [Complex!]!
+    "fetch complex by id"
+    fetchSingleComplex(id: Int!): Complex
+    "fetch filtered complexen"
+    complexen(
+        filter: String
+        skip: Int
+        take: Int
+        orderBy: SorteerComplex
+    ): [Complex!]!
+}
 
+type Mutation {
+    # "For signing up a user you should provide a email and password."
+    # signUpuser(data: CreateUserInputs!): Authpayload #update naar signUpuser(data: CreateUserInputs!): AuthPayload
+    # "signs a user in if the email matches the provided input email"
+    # signInUser(email: String!, password: String!): Authpayload #update naar signUpuser(email: String!, password: String!): AuthPayload
+    signup(email: String!, password: String!, name: String!): AuthPayload
+    login(email: String!, password: String!): AuthPayload
 
-	type Mutation {
-		"For signing up a user you should provide a email and password."
-		signUpuser(data: CreateUserInputs!): Authpayload #update naar signUpuser(data: CreateUserInputs!): AuthPayload
-		"signs a user in if the email matches the provided input email"
-		signInUser(email: String!, password: String!): Authpayload #update naar signUpuser(email: String!, password: String!): AuthPayload
-		"Let's users add a blog post after providing an email"
-		addBlogPost(authorEmail: String!, data: CreatePostInputs!): Post 
-		"deletes a blog post"
-		deleteBlogPost(id: Int!): Post
-		"add complex"
-		addComplex(authorEmail: String!, data: CreateComplexInput, ): Complex
-		"update complex"
-		updateComplex(id: Int!, data: CreateComplexInput): Complex
-		"delete complex"
-		deleteComplex(id: Int!): Complex
-	}
+    "Let's users add a blog post after providing an email"
+    addBlogPost(authorEmail: String!, data: CreatePostInputs!): Post
+    "deletes a blog post"
+    deleteBlogPost(id: Int!): Post
+    "add complex"
+    addComplex(authorEmail: String!, data: CreateComplexInput): Complex
+    "update complex"
+    updateComplex(id: Int!, data: CreateComplexInput): Complex
+    "delete complex"
+    deleteComplex(id: Int!): Complex
+}
 
-	"defines authentication payload returns the full user object and a token" 
-	type Authpayload {
-		token: String 
-		user: User 
-	}
+"defines authentication payload returns the full user object and a token"
+type AuthPayload {
+    token: String
+    user: User
+}
 
-	"Defines what a complex object is it needs at least a complexname and gbo to be made"
-	type Complex {
-		"complex object id"
-		id: Int! 
-		"the complexnumber"
-		complexnummer: Int! 
-		"TimeSeries of the data object"
-		createdAt: DateTime!
-		updatedAt: DateTime! 
-		"current name of the object"
-		complexnaam: String! 
-		"current size of the object"
-		gbo: Int!
-		"current market value of the object" 
-		marktwaarde: Int
-		"rent" 
-		huur: Int 
-		"desired rent"
-		streefhuur: Int 
-		"planed maintanance of the object"
-		po: Int
-		"the user of the complex in order to make work define complex in resolvers and define how user should return complex by user id"
-		gebruiker: User  
-	}
+"Defines what a complex object is it needs at least a complexname and gbo to be made"
+type Complex {
+    "complex object id"
+    id: Int!
+    "the complexnumber"
+    complexnummer: Int!
+    "TimeSeries of the data object"
+    createdAt: DateTime!
+    updatedAt: DateTime!
+    "current name of the object"
+    complexnaam: String!
+    "current size of the object"
+    gbo: Int!
+    "current market value of the object"
+    marktwaarde: Int
+    "rent"
+    huur: Int
+    "desired rent"
+    streefhuur: Int
+    "planed maintanance of the object"
+    po: Int
+    "the user of the complex in order to make work define complex in resolvers and define how user should return complex by user id"
+    gebruiker: User
+}
 
-	"Defines what a user object is it needs an email and it has a list of posts"
-	type User {
-        "id of the user"
-		id: Int!
-        "email of the user"
-		email: String!
-        "name of the user"
-		name: String
-		"the password of the user"
-		password: String!
-		"user is allowed to upload a photo"
-		profilephoto: String 
-		"posts of the user non nullable list because prisma defined as Post[]"
-		posts: [Post!]! 
-		"Complexen associated with the user is a non nullable list because prisma defined it as Complex[]"
-		complexen: [Complex!]!
-	}
+"Defines what a user object is it needs an email and it has a list of posts"
+type User {
+    "id of the user"
+    id: Int!
+    "email of the user"
+    email: String!
+    "name of the user"
+    name: String!
+    "the password of the user"
+    password: String!
+    # "user is allowed to upload a photo"
+    # profilephoto: String
+    "posts of the user non nullable list because prisma defined as Post[]"
+    posts: [Post!]!
+    "Complexen associated with the user is a non nullable list because prisma defined it as Complex[]"
+    complexen: [Complex!]!
+}
 
-	"Defines what a post object is"
-	type Post {
-		"the post id"
-		id: Int! 
-		"TimeSeries of the data object"
-		createdAt: DateTime!
-		updatedAt: DateTime! 
-		"the post title"
-		title: String! 
-		"the post content"
-		content: String 
-		"checks if the post is published"
-		published: Boolean!
-		"the amount of views of the post should be interactive"
-		viewCount: Int! 
-		"the author of the post in order to make work define Post in resolvers and define how author should return post by author id"
-		author: User 
-	}
+"Defines what a post object is"
+type Post {
+    "the post id"
+    id: Int!
+    "TimeSeries of the data object"
+    createdAt: DateTime!
+    updatedAt: DateTime!
+    "the post title"
+    title: String!
+    "the post content"
+    content: String
+    "checks if the post is published"
+    published: Boolean!
+    "the amount of views of the post should be interactive"
+    viewCount: Int!
+    "the author of the post in order to make work define Post in resolvers and define how author should return post by author id"
+    author: User
+}
 
-	input CreateUserInputs {
-		email: String! 
-		name: String 
-		password: String! 
-	}
+input CreateUserInputs {
+    email: String!
+    name: String
+    password: String!
+}
 
-	input CreatePostInputs {
-		"What title should the post have?"
-		title: String! 
-		"Write some content it's fun"
-		content: String 
-		"Do you want to publish your post?"
-		published: Boolean! 
-	}
- 
-	input CreateComplexInput {
-		"what is the compelex name?"
-		complexnaam: String! 
-		"What is the complexnumber"
-		complexnummer: Int!
-		"hoe groot is het complex?"
-		gbo: Int
-		"wat is de marktwaarde"
-		marktwaarde: Int
-		"huur"
-		huur: Int 
-		"streefhuur"
-		streefhuur: Int
-		"wat is de gemiddelde PO"
-		po: Int
-	}
+input CreatePostInputs {
+    "What title should the post have?"
+    title: String!
+    "Write some content it's fun"
+    content: String
+    "Do you want to publish your post?"
+    published: Boolean!
+}
 
+input CreateComplexInput {
+    "what is the compelex name?"
+    complexnaam: String!
+    "What is the complexnumber"
+    complexnummer: Int!
+    "hoe groot is het complex?"
+    gbo: Int
+    "wat is de marktwaarde"
+    marktwaarde: Int
+    "huur"
+    huur: Int
+    "streefhuur"
+    streefhuur: Int
+    "wat is de gemiddelde PO"
+    po: Int
+}
 
-	input SorteerComplex {
-		id: Sort, 
-		complexnaam: Sort, 
-		complexnummer: Sort, 
-		createdAt: Sort, 
-		updatedAt: Sort 
-	}
+input SorteerComplex {
+    id: Sort
+    complexnaam: Sort
+    complexnummer: Sort
+    createdAt: Sort
+    updatedAt: Sort
+}
 
+enum Sort {
+    asc
+    desc
+}
 
-	enum Sort {
-		asc,
-		desc 
-	}
-
-	
-
-	scalar DateTime
-
-
-
-
+scalar DateTime
